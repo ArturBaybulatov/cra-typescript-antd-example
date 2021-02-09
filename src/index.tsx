@@ -3,11 +3,12 @@ import 'antd/dist/antd.css';
 import antdRuLocale from 'antd/lib/locale/ru_RU';
 import moment from 'moment'; // antd transitive dependency
 import 'moment/locale/ru';
-import React from 'react';
+import {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+import App from 'src/App';
+import 'src/index.css';
+import reportWebVitals from 'src/reportWebVitals';
 
 moment.locale('ru');
 
@@ -17,11 +18,11 @@ notification.config({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <ConfigProvider locale={antdRuLocale}>
       <App />
     </ConfigProvider>
-  </React.StrictMode>,
+  </StrictMode>,
 
   document.getElementById('root'),
 );

@@ -1,7 +1,7 @@
 import {DatePicker, notification} from 'antd';
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import 'src/App.css';
+import logo from 'src/logo.svg';
 
 function App() {
   return (
