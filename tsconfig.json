@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "esModuleInterop": true,
@@ -10,6 +11,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
