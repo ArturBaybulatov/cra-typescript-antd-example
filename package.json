@@ -15,6 +15,7 @@
     "@types/node": "^12.19.16",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
+    "env-cmd": "^10.1.0",
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-config-prettier": "^7.2.0",
     "prettier": "^2.2.1",
@@ -24,11 +25,13 @@
   },
   "scripts": {
     "build": "react-scripts build",
+    "build:development": "env-cmd --file .env.development npm run build",
     "eject": "react-scripts eject",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm run format:check && eslint .",
     "start": "react-scripts start",
+    "start:production": "env-cmd --file .env.production npm start",
     "test": "react-scripts test"
   },
   "browserslist": {
