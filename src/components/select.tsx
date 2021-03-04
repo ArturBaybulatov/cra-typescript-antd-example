@@ -8,7 +8,7 @@ interface MySelectProps<Value> extends SelectProps<Value> {
   onChange?: (value?: Value) => void;
 }
 
-export default <Value extends SelectValue>({
+const MySelect = <Value extends SelectValue>({
   mode, //
   onChange,
   style,
@@ -42,3 +42,7 @@ export default <Value extends SelectValue>({
     />
   );
 };
+
+export {MySelect as Select};
+
+export type {MySelectProps as SelectProps};

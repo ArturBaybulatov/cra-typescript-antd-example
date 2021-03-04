@@ -4,7 +4,6 @@ import antdRuLocale from 'antd/lib/locale/ru_RU';
 import 'basscss';
 import moment from 'moment'; // antd transitive dependency
 import 'moment/locale/ru';
-import {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
 
 import App from 'src/App';
@@ -19,11 +18,9 @@ notification.config({
 });
 
 ReactDOM.render(
-  <StrictMode>
-    <ConfigProvider locale={antdRuLocale}>
-      <App />
-    </ConfigProvider>
-  </StrictMode>,
+  <ConfigProvider locale={antdRuLocale}>
+    <App />
+  </ConfigProvider>,
 
   document.getElementById('root'),
 );

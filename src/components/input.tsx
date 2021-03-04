@@ -8,7 +8,7 @@ interface MyInputProps extends Omit<InputProps, 'onChange'> {
   value?: string;
 }
 
-export default ({
+const MyInput = ({
   onChange, //
   value,
   ...restProps
@@ -26,3 +26,7 @@ export default ({
     />
   );
 };
+
+export {MyInput as Input};
+
+export type {MyInputProps as InputProps};
