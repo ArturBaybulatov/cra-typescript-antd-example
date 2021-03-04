@@ -8,18 +8,18 @@ import Select from 'src/components/select';
 import 'src/App.css';
 
 type Fruit = {
-  label: string;
-  value: string;
+  id: string;
+  name: string;
 };
 
 const fruits: Fruit[] = 'Apple Banana Grape Kiwi Lime Melon Orange Pineapple Strawberry'
   .split(' ')
-  .map((label, i) => ({label, value: i.toString()}));
+  .map((name, i) => ({id: i.toString(), name}));
 
 function App() {
   const [username, setUsername] = useState<string>();
-  const [fruitId, setFruitId] = useState<Fruit['value']>();
-  const [fruitsIds, setFruitsIds] = useState<Fruit['value'][]>();
+  const [fruitId, setFruitId] = useState<Fruit['id']>();
+  const [fruitsIds, setFruitsIds] = useState<Fruit['id'][]>();
 
   return (
     <div className="App">
@@ -36,9 +36,9 @@ function App() {
       <div className="mb2">
         <div>{inspect(fruitId)}</div>
 
-        <Select<Fruit['value']> //
+        <Select<Fruit['id']> //
           onChange={setFruitId}
-          options={fruits}
+          options={fruits.map(x => ({label: x.name, value: x.id}))}
           placeholder="Fruit"
           value={fruitId}
         />
@@ -47,10 +47,10 @@ function App() {
       <div>
         <div>{inspect(fruitsIds)}</div>
 
-        <Select<Fruit['value'][]>
+        <Select<Fruit['id'][]>
           mode="multiple"
           onChange={setFruitsIds}
-          options={fruits}
+          options={fruits.map(x => ({label: x.name, value: x.id}))}
           placeholder="Fruits"
           value={fruitsIds}
         />
