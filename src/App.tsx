@@ -1,76 +1,11 @@
 /* eslint-disable */
 
-import {Input, InputProps, Select, SelectProps} from 'antd';
-import {SelectValue} from 'antd/es/select';
-import {strict as assert} from 'assert';
-import _ from 'lodash';
 import {useState} from 'react';
 import {inspect} from 'util';
 
+import Input from 'src/components/input';
+import Select from 'src/components/select';
 import 'src/App.css';
-
-interface MyInputProps extends Omit<InputProps, 'onChange'> {
-  onChange?: (value?: string) => void;
-  value?: string;
-}
-
-const MyInput = ({
-  onChange, //
-  value,
-  ...restProps
-}: MyInputProps) => {
-  if (value !== undefined) {
-    assert(value !== '', 'Please, use `undefined` for an empty value');
-  }
-
-  return (
-    <Input
-      allowClear
-      onChange={({target: {value}}) => onChange?.(value === '' ? undefined : value)}
-      value={value === '' ? undefined : value}
-      {...restProps}
-    />
-  );
-};
-
-interface MySelectProps<Value> extends SelectProps<Value> {
-  onChange?: (value?: Value) => void;
-}
-
-const MySelect = <Value extends SelectValue>({
-  mode, //
-  onChange,
-  style,
-  value,
-  ...restProps
-}: MySelectProps<Value>) => {
-  if ((mode === 'multiple' || mode === 'tags') && value !== undefined) {
-    assert(Array.isArray(value)); // Debug
-    assert(value.length !== 0, 'Please, use `undefined` for an empty value');
-  }
-
-  return (
-    <Select<Value>
-      allowClear
-      mode={mode}
-      onChange={value => {
-        if (mode === 'multiple' || mode === 'tags') {
-          assert(Array.isArray(value)); // Debug
-          onChange?.(value.length === 0 ? undefined : value);
-          return;
-        }
-
-        onChange?.(value);
-      }}
-      optionFilterProp="label"
-      showArrow // Show dropdown icon in multiple mode too
-      showSearch
-      style={{width: '100%', ...style}}
-      value={value}
-      {...restProps}
-    />
-  );
-};
 
 type Fruit = {
   label: string;
@@ -91,7 +26,7 @@ function App() {
       <div className="mb2">
         <div>{inspect(username)}</div>
 
-        <MyInput //
+        <Input //
           onChange={setUsername}
           placeholder="Username"
           value={username}
@@ -101,7 +36,7 @@ function App() {
       <div className="mb2">
         <div>{inspect(fruitId)}</div>
 
-        <MySelect<Fruit['value']> //
+        <Select<Fruit['value']> //
           onChange={setFruitId}
           options={fruits}
           placeholder="Fruit"
@@ -112,7 +47,7 @@ function App() {
       <div>
         <div>{inspect(fruitsIds)}</div>
 
-        <MySelect<Fruit['value'][]>
+        <Select<Fruit['value'][]>
           mode="multiple"
           onChange={setFruitsIds}
           options={fruits}
