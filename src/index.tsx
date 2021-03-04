@@ -1,6 +1,7 @@
 import {ConfigProvider, notification} from 'antd';
 import 'antd/dist/antd.css';
 import antdRuLocale from 'antd/lib/locale/ru_RU';
+import 'basscss';
 import moment from 'moment'; // antd transitive dependency
 import 'moment/locale/ru';
 import {StrictMode} from 'react';
