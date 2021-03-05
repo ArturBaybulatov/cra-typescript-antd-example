@@ -3,7 +3,6 @@
 import {Button, Form as AntForm, FormProps as AntFormProps} from 'antd';
 import {ComponentType, CSSProperties} from 'react';
 import {Field, FieldRenderProps, Form, FormProps} from 'react-final-form';
-
 import {inspect} from 'util';
 
 export type FieldMeta = {
