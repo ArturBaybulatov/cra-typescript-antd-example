@@ -47,6 +47,8 @@ type MyFormProps<Values> = {
   values?: Values;
 };
 
+export type {MyFormProps as FormProps};
+
 const MyForm = <Values,>({
   antProps,
   className,
@@ -117,5 +119,3 @@ const MyForm = <Values,>({
 );
 
 export {MyForm as Form};
-
-export type {MyFormProps as FormProps};

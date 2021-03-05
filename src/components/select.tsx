@@ -8,6 +8,8 @@ interface MySelectProps<Value> extends SelectProps<Value> {
   onChange?: (value?: Value) => void;
 }
 
+export type {MySelectProps as SelectProps};
+
 const MySelect = <Value extends SelectValue>({
   mode, //
   onChange,
@@ -44,5 +46,3 @@ const MySelect = <Value extends SelectValue>({
 };
 
 export {MySelect as Select};
-
-export type {MySelectProps as SelectProps};
