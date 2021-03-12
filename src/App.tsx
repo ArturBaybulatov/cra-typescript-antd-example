@@ -1,9 +1,29 @@
-import {DatePicker, notification} from 'antd';
+import {DatePicker, message, notification} from 'antd';
+import {useEffect} from 'react';
+import {useRoute} from 'react-router5';
+import {inspect} from 'util';
 
-import 'src/App.css';
-import logo from 'src/logo.svg';
+import {isNumeric} from 'src/util';
+
+import './App.css';
+import logo from './logo.svg';
 
 function App() {
+  const {route} = useRoute();
+
+  useEffect(() => {
+    let foo: number | undefined;
+
+    if (isNumeric(route.params.foo)) {
+      foo = Number(route.params.foo);
+    } else if ('foo' in route.params) {
+      message.error('Invalid address parameter');
+      return;
+    }
+
+    message.info(inspect(foo));
+  }, [route.params.foo]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="App">
       <header className="App-header">
