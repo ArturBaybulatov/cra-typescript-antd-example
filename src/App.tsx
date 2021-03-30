@@ -1,30 +1,24 @@
-import {DatePicker, notification} from 'antd';
+type User = {
+  age: number;
+  id: string;
+  name: string;
+};
 
-import 'src/App.css';
-import logo from 'src/logo.svg';
+declare const value: User['id'] | User | Array<User>;
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-        <DatePicker
-          onChange={mDate =>
-            notification.info({
-              message: mDate == null ? 'Date cleared' : 'The selected date',
-              description: mDate?.toDate().toISOString(),
-            })
-          }
-        />
-      </header>
-    </div>
-  );
+type PlainObject = Record<string, any>;
+
+const isPlainObject = (val: any): val is PlainObject =>
+  ({}.toString.call(val) === '[object Object]' && //
+  (val.constructor === Object || val.constructor === undefined));
+
+if (isPlainObject(value)) {
+  console.log(value.name);
+} else if (Array.isArray(value)) {
+  console.log(value[0].name);
+} else if (typeof value === 'string') {
+  console.log(value.toUpperCase());
 }
 
+const App = () => <>Hello</>;
 export default App;
