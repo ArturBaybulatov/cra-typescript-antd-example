@@ -12,12 +12,7 @@ configureMobx({
   reactionRequiresObservable: true,
 });
 
-type Dimension = {
-  id: string;
-  name: string;
-};
-
-const dimensions: Record<Dimension['id'], Dimension> = {
+const dimensions: Record<string, {id: string; name: string}> = {
   bounceRate: {id: 'bounceRate', name: 'Отказы'},
   durationSeconds: {id: 'durationSeconds', name: 'Время на сайте'},
   pages: {id: 'pages', name: 'Глубина просмотра'},
