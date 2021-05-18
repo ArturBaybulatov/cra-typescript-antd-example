@@ -97,5 +97,7 @@ const example2 = () => {
   }
 };
 
+example();
+
 const App = () => <>Hello</>;
 export default App;
