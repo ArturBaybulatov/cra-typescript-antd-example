@@ -1,35 +1,101 @@
-const isRealNumber = (val: unknown): val is number => Number.isFinite(val);
+import {message} from 'antd';
 
-const isNonBlankString = (val: unknown): val is string => {
-  if (typeof val !== 'string') return false;
-  return val.trim() !== '';
+const getAdamantium = () => {};
+const getPlatinum = () => {};
+const getGold = () => {};
+const getSilver = () => {};
+const getBronze = () => {};
+
+const example = () => {
+  try {
+    getGold();
+  } catch {
+    message.error('Failed to get gold');
+
+    try {
+      getSilver();
+    } catch {
+      message.error('Failed to get silver');
+
+      try {
+        getBronze();
+      } catch {
+        message.error('Failed to get any medal');
+        return {error: true, message: 'Failed to get any medal'};
+      }
+
+      message.success('Bronze has been won');
+      return {error: false, medal: 'bronze'};
+    }
+
+    message.success('Silver has been won');
+    return {error: false, medal: 'silver'};
+  }
+
+  message.success('Gold has been won');
+
+  try {
+    getPlatinum();
+  } catch {
+    message.error('Failed to get platinum');
+    return {error: false, medal: 'gold'};
+  }
+
+  message.success('Platinum has been won');
+
+  try {
+    getAdamantium();
+  } catch {
+    message.error('Failed to get adamantium');
+    return {error: false, medal: 'platinum'};
+  }
+
+  message.success('Adamantium has been won');
+  return {error: false, medal: 'adamantium'};
 };
 
-const isArray = (val: unknown): val is Array<any> => Array.isArray(val);
+const example2 = () => {
+  try {
+    getGold();
+    message.success('Gold has been won');
 
-type Primitive = string | number | boolean | bigint | symbol | null | undefined;
-type PlainObject = {[key: string]: Primitive | Array<any> | PlainObject};
+    try {
+      getPlatinum();
+      message.success('Platinum has been won');
 
-const isPlainObject = (val: unknown): val is PlainObject =>
-  ({}.toString.call(val) === '[object Object]' &&
-  ((val as any).constructor === Object ||
-    (val as any).constructor === undefined));
+      try {
+        getAdamantium();
+        message.success('Adamantium has been won');
+        return {error: false, medal: 'adamantium'};
+      } catch {
+        message.error('Failed to get adamantium');
+        return {error: false, medal: 'platinum'};
+      }
+    } catch {
+      message.error('Failed to get platinum');
+      return {error: false, medal: 'gold'};
+    }
+  } catch {
+    message.error('Failed to get gold');
 
-//-------------------------
+    try {
+      getSilver();
+      message.success('Silver has been won');
+      return {error: false, medal: 'silver'};
+    } catch {
+      message.error('Failed to get silver');
 
-type User = {
-  id: string;
-  email: string;
+      try {
+        getBronze();
+        message.success('Bronze has been won');
+        return {error: false, medal: 'bronze'};
+      } catch {
+        message.error('Failed to get any medal');
+        return {error: true, message: 'Failed to get any medal'};
+      }
+    }
+  }
 };
-
-const test = (val: User | Array<User> | number | string) => {
-  if (isPlainObject(val)) return val.email;
-  if (isArray(val)) return val[0].email;
-  if (isRealNumber(val)) return val.toFixed(2);
-  if (isNonBlankString(val)) return val.toUpperCase();
-};
-
-//---------------------------
 
 const App = () => <>Hello</>;
 export default App;
