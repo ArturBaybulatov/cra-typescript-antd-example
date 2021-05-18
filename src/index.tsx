@@ -6,7 +6,7 @@ import 'moment/locale/ru';
 import {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
 
-import App from 'src/App';
+import App from 'src/App3';
 import 'src/index.css';
 import reportWebVitals from 'src/reportWebVitals';
 
