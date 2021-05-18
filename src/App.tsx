@@ -7,19 +7,13 @@ const isNonBlankString = (val: unknown): val is string => {
 
 const isArray = (val: unknown): val is Array<any> => Array.isArray(val);
 
-type PlainObject = object & {
-  [prop: string /*| number*/]: any;
-  [index: number]: never;
-};
+type Primitive = string | number | boolean | bigint | symbol | null | undefined;
+type PlainObject = {[key: string]: Primitive | Array<any> | PlainObject};
+
 const isPlainObject = (val: unknown): val is PlainObject =>
   ({}.toString.call(val) === '[object Object]' &&
   ((val as any).constructor === Object ||
     (val as any).constructor === undefined));
-
-let obj: PlainObject = {aaa: 'foo'};
-let obj2: PlainObject = {1: true}; // TODO: Should not complain
-let arr: PlainObject = ['aaa'];
-let arr2: PlainObject = []; // TODO: Should complain
 
 //-------------------------
 
