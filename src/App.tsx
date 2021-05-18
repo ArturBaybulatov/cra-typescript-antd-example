@@ -1,4 +1,4 @@
-import {notification} from 'antd';
+import {Modal, notification} from 'antd';
 
 const mayThrowFactory = (msg: string) => () => {
   if (Math.random() < 0.5) {
@@ -12,11 +12,33 @@ const getGold = mayThrowFactory('Gold was taken by someone else');
 const getSilver = mayThrowFactory('Silver was taken by someone else');
 const getBronze = mayThrowFactory('Bronze was taken by someone else');
 
-const example = () => {
+type SuccessResponse = {
+  error: false;
+  medal: string;
+};
+
+type ErrorResponse = {
+  error: true;
+  message: string;
+};
+
+type Response = SuccessResponse | ErrorResponse;
+
+const participateInOlympics = (verbose?: boolean): Response => {
+  let success;
+  let error;
+
+  if (verbose) {
+    ({success, error} = notification);
+  } else {
+    success = () => {};
+    error = () => {};
+  }
+
   try {
     getGold();
   } catch (err) {
-    notification.error({
+    error({
       message: 'Failed to get gold',
       description: err.message,
     });
@@ -24,7 +46,7 @@ const example = () => {
     try {
       getSilver();
     } catch (err) {
-      notification.error({
+      error({
         message: 'Failed to get silver',
         description: err.message,
       });
@@ -32,7 +54,7 @@ const example = () => {
       try {
         getBronze();
       } catch (err) {
-        notification.error({
+        error({
           message: 'Failed to get any medal',
           description: err.message,
         });
@@ -40,20 +62,20 @@ const example = () => {
         return {error: true, message: 'Failed to get any medal'};
       }
 
-      notification.success({message: 'Got bronze'});
+      success({message: 'Got bronze'});
       return {error: false, medal: 'bronze'};
     }
 
-    notification.success({message: 'Got silver'});
+    success({message: 'Got silver'});
     return {error: false, medal: 'silver'};
   }
 
-  notification.success({message: 'Got gold'});
+  success({message: 'Got gold'});
 
   try {
     getPlatinum();
   } catch (err) {
-    notification.error({
+    error({
       message: 'Failed to get platinum',
       description: err.message,
     });
@@ -61,12 +83,12 @@ const example = () => {
     return {error: false, medal: 'gold'};
   }
 
-  notification.success({message: 'Got platinum'});
+  success({message: 'Got platinum'});
 
   try {
     getAdamantium();
   } catch (err) {
-    notification.error({
+    error({
       message: 'Failed to get adamantium',
       description: err.message,
     });
@@ -74,25 +96,35 @@ const example = () => {
     return {error: false, medal: 'platinum'};
   }
 
-  notification.success({message: 'Got adamantium'});
+  success({message: 'Got adamantium'});
   return {error: false, medal: 'adamantium'};
 };
 
-const example2 = () => {
+const participateInOlympics2 = (verbose?: boolean): Response => {
+  let success;
+  let error;
+
+  if (verbose) {
+    ({success, error} = notification);
+  } else {
+    success = () => {};
+    error = () => {};
+  }
+
   try {
     getGold();
-    notification.success({message: 'Got gold'});
+    success({message: 'Got gold'});
 
     try {
       getPlatinum();
-      notification.success({message: 'Got platinum'});
+      success({message: 'Got platinum'});
 
       try {
         getAdamantium();
-        notification.success({message: 'Got adamantium'});
+        success({message: 'Got adamantium'});
         return {error: false, medal: 'adamantium'};
       } catch (err) {
-        notification.error({
+        error({
           message: 'Failed to get adamantium',
           description: err.message,
         });
@@ -100,7 +132,7 @@ const example2 = () => {
         return {error: false, medal: 'platinum'};
       }
     } catch (err) {
-      notification.error({
+      error({
         message: 'Failed to get platinum',
         description: err.message,
       });
@@ -108,27 +140,27 @@ const example2 = () => {
       return {error: false, medal: 'gold'};
     }
   } catch (err) {
-    notification.error({
+    error({
       message: 'Failed to get gold',
       description: err.message,
     });
 
     try {
       getSilver();
-      notification.success({message: 'Got silver'});
+      success({message: 'Got silver'});
       return {error: false, medal: 'silver'};
     } catch (err) {
-      notification.error({
+      error({
         message: 'Failed to get silver',
         description: err.message,
       });
 
       try {
         getBronze();
-        notification.success({message: 'Got bronze'});
+        success({message: 'Got bronze'});
         return {error: false, medal: 'bronze'};
       } catch (err) {
-        notification.error({
+        error({
           message: 'Failed to get any medal',
           description: err.message,
         });
@@ -139,7 +171,13 @@ const example2 = () => {
   }
 };
 
-example();
+const res = participateInOlympics(true);
+
+if (res.error) {
+  Modal.error({title: res.message});
+} else {
+  Modal.success({title: `Congratulations with winning the ${res.medal}!`});
+}
 
 const App = () => <>Hello</>;
 export default App;
