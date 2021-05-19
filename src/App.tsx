@@ -1,16 +1,16 @@
 import {Modal, notification} from 'antd';
 
-const mayThrowFactory = (msg: string) => () => {
-  if (Math.random() < 0.5) {
-    throw new Error(msg);
+const mayThrowFactory = (errMsg: string) => (probability = Math.random()) => {
+  if (probability < 0.5) {
+    throw new Error(errMsg);
   }
 };
 
-const getAdamantium = mayThrowFactory('Adamantium was taken by someone else');
-const getPlatinum = mayThrowFactory('Platinum was taken by someone else');
-const getGold = mayThrowFactory('Gold was taken by someone else');
-const getSilver = mayThrowFactory('Silver was taken by someone else');
-const getBronze = mayThrowFactory('Bronze was taken by someone else');
+const tryAdamantium = mayThrowFactory('Adamantium was taken by someone else');
+const tryPlatinum = mayThrowFactory('Platinum was taken by someone else');
+const tryGold = mayThrowFactory('Gold was taken by someone else');
+const trySilver = mayThrowFactory('Silver was taken by someone else');
+const tryBronze = mayThrowFactory('Bronze was taken by someone else');
 
 type SuccessResponse = {
   error: false;
@@ -26,7 +26,7 @@ type Response = SuccessResponse | ErrorResponse;
 
 const participateInOlympics = (): Response => {
   try {
-    getGold();
+    tryGold();
   } catch (err) {
     notification.error({
       message: 'Failed to get gold',
@@ -34,7 +34,7 @@ const participateInOlympics = (): Response => {
     });
 
     try {
-      getSilver();
+      trySilver();
     } catch (err) {
       notification.error({
         message: 'Failed to get silver',
@@ -42,7 +42,7 @@ const participateInOlympics = (): Response => {
       });
 
       try {
-        getBronze();
+        tryBronze();
       } catch (err) {
         notification.error({
           message: 'Failed to get any medal',
@@ -60,10 +60,13 @@ const participateInOlympics = (): Response => {
     return {error: false, medal: 'silver'};
   }
 
-  notification.success({message: 'Got gold'});
+  notification.success({
+    message: 'Got gold',
+    // description: localStorage.get('userId'), // Deliberate error
+  });
 
   try {
-    getPlatinum();
+    tryPlatinum();
   } catch (err) {
     notification.error({
       message: 'Failed to get platinum',
@@ -76,7 +79,7 @@ const participateInOlympics = (): Response => {
   notification.success({message: 'Got platinum'});
 
   try {
-    getAdamantium();
+    tryAdamantium();
   } catch (err) {
     notification.error({
       message: 'Failed to get adamantium',
@@ -92,15 +95,19 @@ const participateInOlympics = (): Response => {
 
 const participateInOlympics2 = (): Response => {
   try {
-    getGold();
-    notification.success({message: 'Got gold'});
+    tryGold();
+
+    notification.success({
+      message: 'Got gold',
+      // description: localStorage.get('userId'), // Deliberate error
+    });
 
     try {
-      getPlatinum();
+      tryPlatinum();
       notification.success({message: 'Got platinum'});
 
       try {
-        getAdamantium();
+        tryAdamantium();
         notification.success({message: 'Got adamantium'});
         return {error: false, medal: 'adamantium'};
       } catch (err) {
@@ -126,7 +133,7 @@ const participateInOlympics2 = (): Response => {
     });
 
     try {
-      getSilver();
+      trySilver();
       notification.success({message: 'Got silver'});
       return {error: false, medal: 'silver'};
     } catch (err) {
@@ -136,7 +143,7 @@ const participateInOlympics2 = (): Response => {
       });
 
       try {
-        getBronze();
+        tryBronze();
         notification.success({message: 'Got bronze'});
         return {error: false, medal: 'bronze'};
       } catch (err) {
@@ -159,5 +166,5 @@ if (res.error) {
   Modal.success({title: `Congratulations with winning the ${res.medal}!`});
 }
 
-const App = () => <>Hello</>;
+const App = () => <></>;
 export default App;
