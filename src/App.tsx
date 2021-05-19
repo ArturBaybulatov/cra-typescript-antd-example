@@ -1,170 +1,44 @@
-import {Modal, notification} from 'antd';
+// @ts-nocheck
 
-const mayThrowFactory = (errMsg: string) => (probability = Math.random()) => {
-  if (probability < 0.5) {
-    throw new Error(errMsg);
-  }
-};
+import {SymmetricDifference} from 'utility-types';
 
-const tryAdamantium = mayThrowFactory('Adamantium was taken by someone else');
-const tryPlatinum = mayThrowFactory('Platinum was taken by someone else');
-const tryGold = mayThrowFactory('Gold was taken by someone else');
-const trySilver = mayThrowFactory('Silver was taken by someone else');
-const tryBronze = mayThrowFactory('Bronze was taken by someone else');
+type Extends<T extends U, U> = true;
+type NotExtends<T, U> = T extends U ? false : true;
 
-type SuccessResponse = {
-  error: false;
-  medal: string;
-};
+type Expect<T extends true> = T;
 
-type ErrorResponse = {
-  error: true;
-  message: string;
-};
+type Wrap1<T> = <U>() => U extends T ? true : false;
+type Wrap2<T> = <U>() => U extends T ? true : false;
+type Equal<A, B> = Wrap1<A> extends Wrap2<B> ? true : false;
 
-type Response = SuccessResponse | ErrorResponse;
+type NotEqual<A, B> = Equal<A, B> extends true ? false : true;
 
-const participateInOlympics = (): Response => {
-  try {
-    tryGold();
-  } catch (err) {
-    notification.error({
-      message: 'Failed to get gold',
-      description: err.message,
-    });
+//------------------------------------
 
-    try {
-      trySilver();
-    } catch (err) {
-      notification.error({
-        message: 'Failed to get silver',
-        description: err.message,
-      });
+type Primitive = string | number | boolean | bigint | symbol | null | undefined;
 
-      try {
-        tryBronze();
-      } catch (err) {
-        notification.error({
-          message: 'Failed to get any medal',
-          description: err.message,
-        });
+type tests = [
+  Expect<Equal<Exclude<Primitive, {}>, null | undefined>>,
+  Expect<Equal<Extract<Primitive, {}>, NonNullable<Primitive>>>,
 
-        return {error: true, message: 'Failed to get any medal'};
-      }
+  Expect<Equal<SymmetricDifference<Primitive, {}>, null | undefined | {}>>,
 
-      notification.success({message: 'Got bronze'});
-      return {error: false, medal: 'bronze'};
-    }
+  Expect<Equal<{}, Object>>, // Fails
 
-    notification.success({message: 'Got silver'});
-    return {error: false, medal: 'silver'};
-  }
+  Expect<NotEqual<object, {}>>,
+  Expect<Extends<object, {}>>,
+  Expect<NotExtends<{}, object>>, // Fails
 
-  notification.success({
-    message: 'Got gold',
-    // description: localStorage.get('userId'), // Deliberate error
-  });
+  Expect<Equal<Record<any, any>, object>>, // Fails
 
-  try {
-    tryPlatinum();
-  } catch (err) {
-    notification.error({
-      message: 'Failed to get platinum',
-      description: err.message,
-    });
+  Expect<NotEqual<Record<any, any>, {}>>,
+  Expect<Extends<Record<any, any>, {}>>,
+  Expect<NotExtends<{}, Record<any, any>>>, // Fails
 
-    return {error: false, medal: 'gold'};
-  }
+  Expect<Equal<Record<string, string>, {[key: string]: string}>>,
+];
 
-  notification.success({message: 'Got platinum'});
-
-  try {
-    tryAdamantium();
-  } catch (err) {
-    notification.error({
-      message: 'Failed to get adamantium',
-      description: err.message,
-    });
-
-    return {error: false, medal: 'platinum'};
-  }
-
-  notification.success({message: 'Got adamantium'});
-  return {error: false, medal: 'adamantium'};
-};
-
-const participateInOlympics2 = (): Response => {
-  try {
-    tryGold();
-
-    notification.success({
-      message: 'Got gold',
-      // description: localStorage.get('userId'), // Deliberate error
-    });
-
-    try {
-      tryPlatinum();
-      notification.success({message: 'Got platinum'});
-
-      try {
-        tryAdamantium();
-        notification.success({message: 'Got adamantium'});
-        return {error: false, medal: 'adamantium'};
-      } catch (err) {
-        notification.error({
-          message: 'Failed to get adamantium',
-          description: err.message,
-        });
-
-        return {error: false, medal: 'platinum'};
-      }
-    } catch (err) {
-      notification.error({
-        message: 'Failed to get platinum',
-        description: err.message,
-      });
-
-      return {error: false, medal: 'gold'};
-    }
-  } catch (err) {
-    notification.error({
-      message: 'Failed to get gold',
-      description: err.message,
-    });
-
-    try {
-      trySilver();
-      notification.success({message: 'Got silver'});
-      return {error: false, medal: 'silver'};
-    } catch (err) {
-      notification.error({
-        message: 'Failed to get silver',
-        description: err.message,
-      });
-
-      try {
-        tryBronze();
-        notification.success({message: 'Got bronze'});
-        return {error: false, medal: 'bronze'};
-      } catch (err) {
-        notification.error({
-          message: 'Failed to get any medal',
-          description: err.message,
-        });
-
-        return {error: true, message: 'Failed to get any medal'};
-      }
-    }
-  }
-};
-
-const res = participateInOlympics();
-
-if (res.error) {
-  Modal.error({title: res.message});
-} else {
-  Modal.success({title: `Congratulations with winning the ${res.medal}!`});
-}
+//------------------------------------
 
 const App = () => <></>;
 export default App;
