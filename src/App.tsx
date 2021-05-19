@@ -24,21 +24,11 @@ type ErrorResponse = {
 
 type Response = SuccessResponse | ErrorResponse;
 
-const participateInOlympics = (verbose?: boolean): Response => {
-  let success;
-  let error;
-
-  if (verbose) {
-    ({success, error} = notification);
-  } else {
-    success = () => {};
-    error = () => {};
-  }
-
+const participateInOlympics = (): Response => {
   try {
     getGold();
   } catch (err) {
-    error({
+    notification.error({
       message: 'Failed to get gold',
       description: err.message,
     });
@@ -46,7 +36,7 @@ const participateInOlympics = (verbose?: boolean): Response => {
     try {
       getSilver();
     } catch (err) {
-      error({
+      notification.error({
         message: 'Failed to get silver',
         description: err.message,
       });
@@ -54,7 +44,7 @@ const participateInOlympics = (verbose?: boolean): Response => {
       try {
         getBronze();
       } catch (err) {
-        error({
+        notification.error({
           message: 'Failed to get any medal',
           description: err.message,
         });
@@ -62,20 +52,20 @@ const participateInOlympics = (verbose?: boolean): Response => {
         return {error: true, message: 'Failed to get any medal'};
       }
 
-      success({message: 'Got bronze'});
+      notification.success({message: 'Got bronze'});
       return {error: false, medal: 'bronze'};
     }
 
-    success({message: 'Got silver'});
+    notification.success({message: 'Got silver'});
     return {error: false, medal: 'silver'};
   }
 
-  success({message: 'Got gold'});
+  notification.success({message: 'Got gold'});
 
   try {
     getPlatinum();
   } catch (err) {
-    error({
+    notification.error({
       message: 'Failed to get platinum',
       description: err.message,
     });
@@ -83,12 +73,12 @@ const participateInOlympics = (verbose?: boolean): Response => {
     return {error: false, medal: 'gold'};
   }
 
-  success({message: 'Got platinum'});
+  notification.success({message: 'Got platinum'});
 
   try {
     getAdamantium();
   } catch (err) {
-    error({
+    notification.error({
       message: 'Failed to get adamantium',
       description: err.message,
     });
@@ -96,35 +86,25 @@ const participateInOlympics = (verbose?: boolean): Response => {
     return {error: false, medal: 'platinum'};
   }
 
-  success({message: 'Got adamantium'});
+  notification.success({message: 'Got adamantium'});
   return {error: false, medal: 'adamantium'};
 };
 
-const participateInOlympics2 = (verbose?: boolean): Response => {
-  let success;
-  let error;
-
-  if (verbose) {
-    ({success, error} = notification);
-  } else {
-    success = () => {};
-    error = () => {};
-  }
-
+const participateInOlympics2 = (): Response => {
   try {
     getGold();
-    success({message: 'Got gold'});
+    notification.success({message: 'Got gold'});
 
     try {
       getPlatinum();
-      success({message: 'Got platinum'});
+      notification.success({message: 'Got platinum'});
 
       try {
         getAdamantium();
-        success({message: 'Got adamantium'});
+        notification.success({message: 'Got adamantium'});
         return {error: false, medal: 'adamantium'};
       } catch (err) {
-        error({
+        notification.error({
           message: 'Failed to get adamantium',
           description: err.message,
         });
@@ -132,7 +112,7 @@ const participateInOlympics2 = (verbose?: boolean): Response => {
         return {error: false, medal: 'platinum'};
       }
     } catch (err) {
-      error({
+      notification.error({
         message: 'Failed to get platinum',
         description: err.message,
       });
@@ -140,27 +120,27 @@ const participateInOlympics2 = (verbose?: boolean): Response => {
       return {error: false, medal: 'gold'};
     }
   } catch (err) {
-    error({
+    notification.error({
       message: 'Failed to get gold',
       description: err.message,
     });
 
     try {
       getSilver();
-      success({message: 'Got silver'});
+      notification.success({message: 'Got silver'});
       return {error: false, medal: 'silver'};
     } catch (err) {
-      error({
+      notification.error({
         message: 'Failed to get silver',
         description: err.message,
       });
 
       try {
         getBronze();
-        success({message: 'Got bronze'});
+        notification.success({message: 'Got bronze'});
         return {error: false, medal: 'bronze'};
       } catch (err) {
-        error({
+        notification.error({
           message: 'Failed to get any medal',
           description: err.message,
         });
@@ -171,7 +151,7 @@ const participateInOlympics2 = (verbose?: boolean): Response => {
   }
 };
 
-const res = participateInOlympics(true);
+const res = participateInOlympics();
 
 if (res.error) {
   Modal.error({title: res.message});
