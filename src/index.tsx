@@ -1,21 +1,13 @@
-import {ConfigProvider, notification} from 'antd';
+import {ConfigProvider} from 'antd';
 import 'antd/dist/antd.css';
 import antdRuLocale from 'antd/lib/locale/ru_RU';
-import moment from 'moment'; // antd transitive dependency
-import 'moment/locale/ru';
 import {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
 
+import 'src/global';
 import App from 'src/App';
 import 'src/index.css';
 import reportWebVitals from 'src/reportWebVitals';
-
-moment.locale('ru');
-
-notification.config({
-  duration: 0,
-  placement: 'topLeft',
-});
 
 ReactDOM.render(
   <StrictMode>
