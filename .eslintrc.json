@@ -13,7 +13,10 @@
   },
 
   "rules": {
+    "@typescript-eslint/no-shadow": "off",
     "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "no-plusplus": "off",
     "react/react-in-jsx-scope": "off"
   }
 }
