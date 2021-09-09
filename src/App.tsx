@@ -1,9 +1,7 @@
 const isRealNumber = (val: unknown): val is number => Number.isFinite(val);
 
-const isNonBlankString = (val: unknown): val is string => {
-  if (typeof val !== 'string') return false;
-  return val.trim() !== '';
-};
+const isNonBlankString = (val: unknown): val is string =>
+  typeof val === 'string' && val.trim() !== '';
 
 const isArray = (val: unknown): val is Array<any> => Array.isArray(val);
 
